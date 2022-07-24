@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:markdown_parser/element/element.dart';
 import 'package:markdown_parser/markdown_parser.dart';
 import 'package:markdown_viewer/widgets/heading_viewer.dart';
+import 'package:markdown_viewer/widgets/markdown_list_viewer.dart';
 import 'package:markdown_viewer/widgets/paragraph_viewer.dart';
 
 class MarkDownViewer extends StatefulWidget {
@@ -38,7 +39,9 @@ class _MarkDownViewerState extends State<MarkDownViewer> {
           if (item is Heading) {
             return HeadingViewer(heading: item);
           }
-
+          if (item is MarkDownList) {
+            return MarkDownListViewer(markdownList: item);
+          }
           return Text((item as UnParsed).text);
         });
   }
