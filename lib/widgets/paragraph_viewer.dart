@@ -13,14 +13,20 @@ class ParagraphViewer extends StatefulWidget {
 }
 
 class _ParagraphViewerState extends State<ParagraphViewer> {
-  List<TextSpan> textSpans = [];
+  List paragraphList = [];
 
   @override
   void initState() {
     super.initState();
+    List<TextSpan>? textSpans;
     for (MarkDownElement item in widget.elements) {
-      TextStyle style;
+      //if item is not `Emphasis` or `UnParsed`, need to set textSpans null
+      if (item is MarkDownImage) {
+        textSpans = null;
+        paragraphList.add(item);
+      }
       if (item is Emphasis) {
+        TextStyle style;
         switch (item.type) {
           case EmphasisType.bold:
             style = const TextStyle(fontWeight: FontWeight.bold);
@@ -35,21 +41,42 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
           case EmphasisType.code:
             style = const TextStyle(backgroundColor: Colors.black12);
         }
-        textSpans.add(TextSpan(text: item.text, style: style));
+        _checkedTextSpans(textSpans)
+            .add(TextSpan(text: item.text, style: style));
       }
-      if (item is UnParsed) {
-        textSpans.add(TextSpan(text: item.text));
+      if (item is MarkdownText) {
+        _checkedTextSpans(textSpans).add(TextSpan(text: item.text));
       }
     }
   }
 
+  List<TextSpan> _checkedTextSpans(List<TextSpan>? textSpans) {
+    if (textSpans == null) {
+      textSpans = [];
+      paragraphList.add(textSpans);
+    }
+    return textSpans;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        style: DefaultTextStyle.of(context).style,
-        children: textSpans,
-      ),
-    );
+    return ListView.builder(
+        itemCount: paragraphList.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int position) {
+          var item = paragraphList[position];
+          if (item is MarkDownImage) {
+            return Image.network(item.address);
+          }
+          if (item is List<TextSpan>) {
+            return RichText(
+                text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: item,
+            ));
+          }
+          return const Text("\n");
+        });
   }
 }

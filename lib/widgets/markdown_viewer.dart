@@ -42,7 +42,7 @@ class _MarkDownViewerState extends State<MarkDownViewer> {
           if (item is MarkDownList) {
             return MarkDownListViewer(markdownList: item);
           }
-          return Text((item as UnParsed).text);
+          return Text((item as MarkdownText).text);
         });
   }
 }
