@@ -20,7 +20,7 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
     super.initState();
     List<TextSpan>? textSpans;
     for (MarkDownElement item in widget.elements) {
-      //if item is not `Emphasis` or `UnParsed`, need to set textSpans null
+      //if item is not `Emphasis` or `MarkDownText`, need to set textSpans null
       if (item is MarkDownImage) {
         textSpans = null;
         paragraphList.add(item);
@@ -41,42 +41,50 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
           case EmphasisType.code:
             style = const TextStyle(backgroundColor: Colors.black12);
         }
-        _checkedTextSpans(textSpans)
-            .add(TextSpan(text: item.text, style: style));
+        textSpans = _checkedTextSpans(textSpans, item.text, style);
       }
       if (item is MarkdownText) {
-        _checkedTextSpans(textSpans).add(TextSpan(text: item.text));
+        textSpans = _checkedTextSpans(textSpans, item.text, null);
       }
     }
   }
 
-  List<TextSpan> _checkedTextSpans(List<TextSpan>? textSpans) {
+  List<TextSpan> _checkedTextSpans(
+      List<TextSpan>? textSpans, String text, TextStyle? style) {
     if (textSpans == null) {
       textSpans = [];
       paragraphList.add(textSpans);
     }
+    textSpans.add(TextSpan(text: text, style: style));
     return textSpans;
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: paragraphList.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int position) {
-          var item = paragraphList[position];
-          if (item is MarkDownImage) {
-            return Image.network(item.address);
-          }
-          if (item is List<TextSpan>) {
-            return RichText(
-                text: TextSpan(
-              style: DefaultTextStyle.of(context).style,
-              children: item,
-            ));
-          }
-          return const Text("\n");
-        });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ...List.generate(
+          paragraphList.length,
+          (index) {
+            var item = paragraphList[index];
+            if (item is MarkDownImage) {
+              return Image.network(
+                item.address,
+                fit: BoxFit.scaleDown,
+              );
+            }
+            if (item is List<TextSpan>) {
+              return RichText(
+                  text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: item,
+              ));
+            }
+            return const Text("\n");
+          },
+        ),
+      ],
+    );
   }
 }

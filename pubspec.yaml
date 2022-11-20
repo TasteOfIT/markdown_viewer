@@ -1,7 +1,8 @@
 name: markdown_viewer
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: ''
+publish_to: none
 
 environment:
   sdk: ">=2.17.5 <4.0.0"
