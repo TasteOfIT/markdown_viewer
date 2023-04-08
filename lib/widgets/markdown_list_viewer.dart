@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'package:markdown_parser/element/element.dart';
 import 'package:markdown_viewer/widgets/paragraph_viewer.dart';
 
-class MarkDownListViewer extends StatefulWidget {
-  late MarkDownList markdownList;
+class MarkdownListViewer extends StatefulWidget {
+  late MarkdownList markdownList;
 
-  MarkDownListViewer({Key? key, required this.markdownList}) : super(key: key);
+  MarkdownListViewer({Key? key, required this.markdownList}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,7 +13,7 @@ class MarkDownListViewer extends StatefulWidget {
   }
 }
 
-class _MDLState extends State<MarkDownListViewer> {
+class _MDLState extends State<MarkdownListViewer> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -21,7 +21,7 @@ class _MDLState extends State<MarkDownListViewer> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int position) {
-          MarkDownListNode node = widget.markdownList.data[position];
+          MarkdownListNode node = widget.markdownList.data[position];
           if (node.childContent != null && node.childContent is Paragraph) {
             return Wrap(
               direction: Axis.horizontal,
@@ -29,8 +29,7 @@ class _MDLState extends State<MarkDownListViewer> {
                 Row(
                   children: [
                     Text(_getPrefix(node)),
-                    ParagraphViewer(
-                        elements: (node.childContent as Paragraph).children)
+                    ParagraphViewer(elements: (node.childContent as Paragraph).children)
                   ],
                 )
               ],
@@ -40,7 +39,7 @@ class _MDLState extends State<MarkDownListViewer> {
         });
   }
 
-  String _getPrefix(MarkDownListNode node) {
+  String _getPrefix(MarkdownListNode node) {
     String gap = "";
     String symbol = "";
     if (node.deep > 0) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:markdown_parser/element/element.dart';
 
 class ParagraphViewer extends StatefulWidget {
-  final List<MarkDownElement> elements;
+  final List<MarkdownElement> elements;
 
   const ParagraphViewer({Key? key, required this.elements}) : super(key: key);
 
@@ -19,9 +19,9 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
   void initState() {
     super.initState();
     List<TextSpan>? textSpans;
-    for (MarkDownElement item in widget.elements) {
-      //if item is not `Emphasis` or `MarkDownText`, need to set textSpans null
-      if (item is MarkDownImage) {
+    for (MarkdownElement item in widget.elements) {
+      //if item is not `Emphasis` or `MarkdownText`, need to set textSpans null
+      if (item is MarkdownImage) {
         textSpans = null;
         paragraphList.add(item);
       }
@@ -35,8 +35,7 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
             style = const TextStyle(fontStyle: FontStyle.italic);
             break;
           case EmphasisType.boldAndItalic:
-            style = const TextStyle(
-                fontWeight: FontWeight.bold, fontStyle: FontStyle.italic);
+            style = const TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic);
             break;
           case EmphasisType.code:
             style = const TextStyle(backgroundColor: Colors.black12);
@@ -49,8 +48,7 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
     }
   }
 
-  List<TextSpan> _checkedTextSpans(
-      List<TextSpan>? textSpans, String text, TextStyle? style) {
+  List<TextSpan> _checkedTextSpans(List<TextSpan>? textSpans, String text, TextStyle? style) {
     if (textSpans == null) {
       textSpans = [];
       paragraphList.add(textSpans);
@@ -68,7 +66,7 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
           paragraphList.length,
           (index) {
             var item = paragraphList[index];
-            if (item is MarkDownImage) {
+            if (item is MarkdownImage) {
               return Image.network(
                 item.address,
                 fit: BoxFit.scaleDown,
