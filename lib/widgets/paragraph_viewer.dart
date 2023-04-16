@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:markdown_parser/element/element.dart';
+import 'package:markdown_parser/markdown_parser.dart';
 
 class ParagraphViewer extends StatefulWidget {
   final List<MarkdownElement> elements;

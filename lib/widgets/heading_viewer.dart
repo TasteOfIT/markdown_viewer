@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:markdown_parser/element/element.dart';
+import 'package:markdown_parser/markdown_parser.dart';
 
 class HeadingViewer extends StatelessWidget {
   static const double minHeadingFontSize = 14.0;

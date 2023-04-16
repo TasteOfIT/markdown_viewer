@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:markdown_parser/element/element.dart';
-import 'package:markdown_viewer/widgets/paragraph_viewer.dart';
+import 'package:markdown_parser/markdown_parser.dart';
+
+import './paragraph_viewer.dart';
 
 class MarkdownListViewer extends StatefulWidget {
   late MarkdownList markdownList;
