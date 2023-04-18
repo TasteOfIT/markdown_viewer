@@ -77,7 +77,7 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
                 children: [
                   RichText(
                     text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
+                      style: Theme.of(context).textTheme.bodyLarge,
                       children: item,
                     ),
                   ),

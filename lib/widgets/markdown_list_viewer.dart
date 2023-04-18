@@ -1,5 +1,8 @@
-import 'package:flutter/widgets.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:markdown_parser/markdown_parser.dart';
+import 'package:markdown_viewer/utils/bullet_generator.dart';
 
 import './paragraph_viewer.dart';
 
@@ -28,7 +31,7 @@ class _MDLState extends State<MarkdownListViewer> {
               direction: Axis.horizontal,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_getPrefix(node)),
+                Text(_getPrefix(node), style: Theme.of(context).textTheme.bodyLarge),
                 Flexible(child: ParagraphViewer(elements: (node.childContent as Paragraph).children))
               ],
             );
@@ -40,23 +43,17 @@ class _MDLState extends State<MarkdownListViewer> {
   String _getPrefix(MarkdownListNode node) {
     String gap = "";
     String symbol = "";
-    if (node.deep > 0) {
+    if (node.depth > 0) {
       gap = " ";
     }
-    for (var i = 0; i <= node.deep; i++) {
+    for (var i = 0; i <= node.depth; i++) {
       gap += gap;
     }
     if (node.type == ListType.unOrdered) {
-      if (node.deep == 0) {
-        symbol = "●";
-      } else if (node.deep == 1) {
-        symbol = "○";
-      } else {
-        symbol = "▪";
-      }
+      symbol = getBulletUnordered(min(node.depth, 2));
     }
     if (node.type == ListType.ordered) {
-      symbol = "${node.index + 1}. ";
+      symbol = getBulletOrdered(node.index + 1, min(node.depth, 2));
     }
     return "$gap$symbol ";
   }
