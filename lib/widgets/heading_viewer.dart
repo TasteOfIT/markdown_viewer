@@ -10,11 +10,15 @@ class HeadingViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(TextSpan(
+    return Text.rich(
+      TextSpan(
         text: heading.text,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: minHeadingFontSize / (heading.level / hadingTypeSize),
-        )));
+        ),
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

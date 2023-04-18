@@ -73,11 +73,16 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
               );
             }
             if (item is List<TextSpan>) {
-              return RichText(
-                  text: TextSpan(
-                style: DefaultTextStyle.of(context).style,
-                children: item,
-              ));
+              return Wrap(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: item,
+                    ),
+                  ),
+                ],
+              );
             }
             return const Text("\n");
           },

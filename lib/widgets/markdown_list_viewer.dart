@@ -24,15 +24,12 @@ class _MDLState extends State<MarkdownListViewer> {
         itemBuilder: (BuildContext context, int position) {
           MarkdownListNode node = widget.markdownList.data[position];
           if (node.childContent != null && node.childContent is Paragraph) {
-            return Wrap(
+            return Flex(
               direction: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(_getPrefix(node)),
-                    ParagraphViewer(elements: (node.childContent as Paragraph).children)
-                  ],
-                )
+                Text(_getPrefix(node)),
+                Flexible(child: ParagraphViewer(elements: (node.childContent as Paragraph).children))
               ],
             );
           }
