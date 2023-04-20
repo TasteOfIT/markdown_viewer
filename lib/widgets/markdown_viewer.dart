@@ -2,11 +2,12 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:markdown_parser/markdown_parser.dart';
-import 'package:markdown_viewer/bloc/view_doc_bloc.dart';
 
 import './heading_viewer.dart';
-import './markdown_list_viewer.dart';
 import './paragraph_viewer.dart';
+import './preformatted_viewer.dart';
+import '../bloc/view_doc_bloc.dart';
+import '../widgets/list_line_viewer.dart';
 
 class MarkdownViewer extends StatefulWidget {
   final String noteId;
@@ -68,16 +69,19 @@ class _MarkdownViewerState extends State<MarkdownViewer> {
       itemCount: elements.length,
       itemBuilder: (BuildContext context, int position) {
         MarkdownElement item = elements[position];
-        if (item is Paragraph) {
-          return ParagraphViewer(elements: item.children);
-        }
         if (item is Heading) {
           return HeadingViewer(heading: item);
         }
-        if (item is MarkdownList) {
-          return MarkdownListViewer(markdownList: item);
+        if (item is Paragraph) {
+          return ParagraphViewer(elements: item.children);
         }
-        return Text((item as MarkdownText).text);
+        if (item is MarkdownListLine) {
+          return ListLineViewer(markdownListLine: item);
+        }
+        if (item is Preformatted) {
+          return PreformattedViewer(element: item);
+        }
+        return Text((item as Plain).text);
       },
     );
   }
