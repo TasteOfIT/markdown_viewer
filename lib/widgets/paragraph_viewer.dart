@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_parser/markdown_parser.dart';
 import 'package:markdown_viewer/utils/text_styles.dart';
@@ -48,6 +49,16 @@ class _ParagraphViewerState extends State<ParagraphViewer> {
         TextSpan(text: text, style: style),
         const TextSpan(text: ' '),
       ];
+    }
+    if (item.type == ElementType.link) {
+      var recognizer = TapGestureRecognizer()
+        ..onTapDown = (details) {
+          // add pressed state
+        }
+        ..onTapUp = (details) {
+          // remove pressed state
+        };
+      return [TextSpan(text: text, style: style, recognizer: recognizer)];
     }
     return [TextSpan(text: text, style: style)];
   }
