@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_parser/markdown_parser.dart';
+import 'package:markdown_viewer/widgets/paragraph_viewer.dart';
+
+import '../utils/text_styles.dart';
 
 class HeadingViewer extends StatelessWidget {
-  static const double minFontSize = 8.0;
   final Heading heading;
 
   const HeadingViewer({Key? key, required this.heading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: heading.text,
-        style: _headingStyle(context, heading.level),
-      ),
-      overflow: TextOverflow.ellipsis,
+    return ParagraphViewer(
+      paragraph: heading,
+      parentStyle: _headingStyle(context, heading.level),
+      maxLines: 1,
     );
   }
 
@@ -44,13 +44,9 @@ class HeadingViewer extends StatelessWidget {
         break;
     }
     if (style == null) {
-      return const TextStyle(
-        fontStyle: FontStyle.normal,
-        fontSize: minFontSize,
-        fontWeight: FontWeight.w300,
-      );
+      return fallbackHeading.copyWith(overflow: TextOverflow.ellipsis);
     } else {
-      return style;
+      return style.copyWith(overflow: TextOverflow.ellipsis);
     }
   }
 }

@@ -22,7 +22,7 @@ class ViewDocBloc extends Bloc<ViewDocEvent, ViewDocState> {
       emit(ViewDocError("No content with id ${event.id}"));
     } else {
       emit(DocTitleLoaded(doc.title));
-      List<MarkdownElement> elements = markdownParser.parse(doc.content);
+      List<MarkdownElem> elements = markdownParser.parse(doc.content);
       emit(DocContentLoaded(doc.title, elements));
     }
   }

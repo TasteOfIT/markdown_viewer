@@ -2,47 +2,46 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:markdown_parser/markdown_parser.dart';
-import 'package:markdown_viewer/utils/bullet_generator.dart';
 
-import './paragraph_viewer.dart';
+import '../utils/bullet_generator.dart';
+import 'block_viewer.dart';
 
 class ListLineViewer extends StatelessWidget {
-  final MarkdownListLine markdownListLine;
+  final MarkdownListLine listLine;
+  final TextStyle? parentStyle;
 
-  const ListLineViewer({Key? key, required this.markdownListLine}) : super(key: key);
+  const ListLineViewer({Key? key, required this.listLine, this.parentStyle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (markdownListLine.children.isNotEmpty) {
+    if (listLine.children.isNotEmpty) {
       return Flex(
         direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
+        textBaseline: TextBaseline.alphabetic,
         children: [
-          Text(_getPrefix(markdownListLine), style: Theme.of(context).textTheme.bodyLarge),
-          Flexible(child: ParagraphViewer(elements: (markdownListLine.children.first).children)),
+          Text(_getPrefix(listLine), style: Theme.of(context).textTheme.bodyLarge?.merge(parentStyle)),
+          Flexible(child: BlockViewer(elements: listLine.children, parentStyle: parentStyle)),
         ],
       );
     } else {
-      return const Text('\n');
+      return const SizedBox.shrink();
     }
   }
 
   String _getPrefix(MarkdownListLine node) {
     ListInfo info = node.listInfo;
-    String gap = "";
-    String symbol = "";
-    if (info.depth > 0) {
-      gap = " ";
-    }
-    for (var i = 0; i <= info.depth; i++) {
-      gap += gap;
+    StringBuffer gap = StringBuffer();
+    StringBuffer symbol = StringBuffer();
+    for (var i = 0; i < info.depth; i++) {
+      gap.write('    ');
     }
     switch (info.listType) {
       case ListType.unOrdered:
-        symbol = getBulletUnordered(min(info.depth, 2));
+        symbol.write(getBulletUnordered(min(info.depth, 2)));
         break;
       case ListType.ordered:
-        symbol = getBulletOrdered(node.index + 1, min(info.depth, 2));
+        symbol.write(getBulletOrdered(node.index + 1, min(info.depth, 2)));
         break;
     }
     return "$gap$symbol ";

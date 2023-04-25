@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:markdown_parser/markdown_parser.dart';
 import 'package:markdown_viewer/utils/colors.dart';
 
-const Map<ElementType, TextStyle> textStyles = {
-  ElementType.link: TextStyle(
+const Map<ElemType, TextStyle> textStyles = {
+  ElemType.link: TextStyle(
     decoration: TextDecoration.underline,
     decorationStyle: TextDecorationStyle.dashed,
   ),
-  ElementType.bold: TextStyle(
-    fontStyle: FontStyle.normal,
+  ElemType.bold: TextStyle(
     fontWeight: FontWeight.bold,
   ),
-  ElementType.italic: TextStyle(
+  ElemType.italic: TextStyle(
     fontStyle: FontStyle.italic,
-    fontWeight: FontWeight.normal,
   ),
-  ElementType.code: TextStyle(
+  ElemType.code: TextStyle(
     fontWeight: FontWeight.w300,
     backgroundColor: Color(backgroundCode),
     letterSpacing: 1.0,
   ),
-  ElementType.plain: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-  ),
+  ElemType.text: TextStyle(),
 };
+
+const TextStyle fallbackHeading = TextStyle(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w400,
+);

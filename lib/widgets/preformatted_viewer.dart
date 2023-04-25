@@ -14,7 +14,7 @@ class PreformattedViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (element.content.type == ElementType.code) {
+    if (element.content.type == ElemType.code) {
       return IntrinsicWidth(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -28,7 +28,10 @@ class PreformattedViewer extends StatelessWidget {
                   padding: const EdgeInsets.all(_padding),
                   child: Text(
                     element.content.text.trimRight(),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w300),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: 1.0,
+                        ),
                   ),
                 ),
               ),

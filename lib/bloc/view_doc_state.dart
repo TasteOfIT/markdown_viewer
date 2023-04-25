@@ -23,7 +23,7 @@ class DocContentLoaded extends ViewDocState {
 
   final String title;
 
-  final List<MarkdownElement> elements;
+  final List<MarkdownElem> elements;
 
   @override
   List<Object?> get props => [title, elements];
