@@ -18,10 +18,16 @@ class ListLineViewer extends StatelessWidget {
       return Flex(
         direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
-        textBaseline: TextBaseline.alphabetic,
         children: [
-          Text(_getPrefix(listLine), style: Theme.of(context).textTheme.bodyLarge?.merge(parentStyle)),
-          Flexible(child: BlockViewer(elements: listLine.children, parentStyle: parentStyle)),
+          Text(
+            _getPrefix(listLine.listInfo, listLine.index),
+            style: Theme.of(context).textTheme.bodyLarge?.merge(parentStyle),
+            textAlign: TextAlign.right,
+          ),
+          const Padding(padding: EdgeInsets.all(4.0)),
+          Flexible(
+            child: BlockViewer(elements: listLine.children, parentStyle: parentStyle),
+          ),
         ],
       );
     } else {
@@ -29,8 +35,7 @@ class ListLineViewer extends StatelessWidget {
     }
   }
 
-  String _getPrefix(MarkdownListLine node) {
-    ListInfo info = node.listInfo;
+  String _getPrefix(ListInfo info, int index) {
     StringBuffer gap = StringBuffer();
     StringBuffer symbol = StringBuffer();
     for (var i = 0; i < info.depth; i++) {
@@ -41,9 +46,9 @@ class ListLineViewer extends StatelessWidget {
         symbol.write(getBulletUnordered(min(info.depth, 2)));
         break;
       case ListType.ordered:
-        symbol.write(getBulletOrdered(node.index + 1, min(info.depth, 2)));
+        symbol.write(getBulletOrdered(index + 1, min(info.depth, 2)));
         break;
     }
-    return "$gap$symbol ";
+    return "$gap$symbol";
   }
 }
