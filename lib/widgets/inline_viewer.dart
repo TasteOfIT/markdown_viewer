@@ -32,7 +32,7 @@ class InlineViewer extends StatelessWidget {
     return TextSpan(text: ' ${text.trim()} ', style: style);
   }
 
-  TextSpan _linkSpan(String text, String link, TextStyle? style) {
+  TextSpan _linkSpan(Inline item, TextStyle? style) {
     var recognizer = TapGestureRecognizer()
       ..onTapDown = (details) {
         // add pressed state
@@ -40,7 +40,13 @@ class InlineViewer extends StatelessWidget {
       ..onTapUp = (details) {
         // remove pressed state
       };
-    return TextSpan(text: text, style: style, recognizer: recognizer);
+    UrlLink link = item as UrlLink;
+    if (link.spanChildren.isNotEmpty) {
+      return TextSpan(
+        children: link.spanChildren.map((child) => _createTextSpan(child, style)).toList(),
+      );
+    }
+    return TextSpan(text: item.text, style: style, recognizer: recognizer);
   }
 
   TextSpan _createTextSpan(Inline item, TextStyle? parentStyle) {
@@ -50,7 +56,7 @@ class InlineViewer extends StatelessWidget {
       return _codeSpan(text, style);
     }
     if (item.type == ElemType.link) {
-      return _linkSpan(text, (item as UrlLink).link, style);
+      return _linkSpan(item, style);
     }
     if (item.spanChildren.isNotEmpty) {
       // handle embedding inline
