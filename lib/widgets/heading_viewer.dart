@@ -44,9 +44,9 @@ class HeadingViewer extends StatelessWidget {
         break;
     }
     if (style == null) {
-      return fallbackHeading.copyWith(overflow: TextOverflow.ellipsis);
+      return fallbackHeading.copyWith(inherit: true, overflow: TextOverflow.ellipsis);
     } else {
-      return style.copyWith(overflow: TextOverflow.ellipsis);
+      return style.copyWith(inherit: true, overflow: TextOverflow.ellipsis);
     }
   }
 }
